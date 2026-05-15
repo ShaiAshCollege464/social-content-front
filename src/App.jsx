@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import './App.css'
+
 import DashboardPage from './pages/DashboardPage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 
-const defaultRoute = 'dashboard'
+const defaultRoute = 'login'
 
 const routes = {
   dashboard: {
@@ -20,7 +21,7 @@ const routes = {
 
 function getRouteFromPath() {
   const matchingRoute = Object.entries(routes).find(
-    ([, route]) => route.path === window.location.pathname,
+      ([, route]) => route.path === window.location.pathname
   )
 
   return matchingRoute?.[0] ?? defaultRoute
@@ -31,28 +32,34 @@ function App() {
   const ActivePage = routes[activeRoute].Component
 
   useEffect(() => {
-    const syncRouteWithUrl = () => setActiveRoute(getRouteFromPath())
 
-    if (!Object.values(routes).some((route) => route.path === window.location.pathname)) {
-      window.history.replaceState(null, '', routes[defaultRoute].path)
+    const syncRouteWithUrl = () => {
+      setActiveRoute(getRouteFromPath())
     }
 
     window.addEventListener('popstate', syncRouteWithUrl)
-    return () => window.removeEventListener('popstate', syncRouteWithUrl)
+
+    if (!Object.values(routes).some(r => r.path === window.location.pathname)) {
+      window.history.replaceState(null, '', routes[defaultRoute].path)
+    }
+
+    return () => {
+      window.removeEventListener('popstate', syncRouteWithUrl)
+    }
+
   }, [])
 
-  function navigateTo(routeKey, event) {
-    event.preventDefault()
+  function navigateTo(routeKey) {
     window.history.pushState(null, '', routes[routeKey].path)
     setActiveRoute(routeKey)
   }
 
   return (
-    <ActivePage
-      activeRoute={activeRoute}
-      routes={routes}
-      onNavigate={navigateTo}
-    />
+      <ActivePage
+          activeRoute={activeRoute}
+          routes={routes}
+          onNavigate={navigateTo}
+      />
   )
 }
 
