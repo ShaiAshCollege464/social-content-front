@@ -1,3 +1,4 @@
+
 .app-shell {
   width: min(1120px, calc(100% - 32px));
   margin: 0 auto;
@@ -116,7 +117,6 @@ input:focus-visible {
   grid-area: manager;
   min-height: 460px;
   padding: 28px;
-  direction: rtl;
   overflow: hidden;
 }
 
@@ -130,8 +130,8 @@ input:focus-visible {
   border-radius: 24px;
   color: #ffffff;
   background:
-    linear-gradient(145deg, rgba(255, 255, 255, 0.32), transparent 45%),
-    linear-gradient(135deg, var(--teal), var(--coral));
+          linear-gradient(145deg, rgba(255, 255, 255, 0.32), transparent 45%),
+          linear-gradient(135deg, var(--teal), var(--coral));
   box-shadow: 0 18px 35px rgba(17, 139, 126, 0.24);
   font-family: var(--display);
   font-size: 1.5rem;
@@ -153,8 +153,8 @@ input:focus-visible {
   min-height: 82px;
   border-radius: 6px;
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.8), transparent),
-    var(--tile-color);
+          linear-gradient(135deg, rgba(255, 255, 255, 0.8), transparent),
+          var(--tile-color);
 }
 
 .content-board span:nth-child(1) {
@@ -177,7 +177,6 @@ input:focus-visible {
   grid-area: clients;
   display: grid;
   gap: 14px;
-  direction: rtl;
 }
 
 .section-heading {
@@ -243,6 +242,7 @@ input:focus-visible {
 .login-card {
   width: min(440px, 100%);
   padding: 34px;
+  backdrop-filter: blur(10px);
 }
 
 .login-note {
@@ -273,10 +273,51 @@ input {
   font: inherit;
   text-align: start;
   unicode-bidi: plaintext;
+  transition:
+          border-color 0.2s ease,
+          box-shadow 0.2s ease;
 }
 
 input::placeholder {
   color: #8d9a96;
+}
+
+input:focus-visible {
+  outline: none;
+  border-color: #118b7e;
+  box-shadow: 0 0 0 4px rgba(17, 139, 126, 0.12);
+}
+
+.login-button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #118b7e, #0f6f64);
+  color: white;
+  font-size: 1rem;
+  font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 10px 24px rgba(17, 139, 126, 0.18);
+}
+
+.login-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(17, 139, 126, 0.28);
+}
+
+.login-button:active {
+  transform: scale(0.98);
+}
+
+.login-error {
+  margin-top: -8px;
+  color: #d94b4b;
+  font-size: 0.92rem;
+  font-weight: 700;
+  text-align: center;
 }
 
 @media (max-width: 760px) {

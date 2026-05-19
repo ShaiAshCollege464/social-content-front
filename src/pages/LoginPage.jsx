@@ -6,6 +6,7 @@ function LoginPage({ activeRoute, routes, onNavigate }) {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleLogin = () => {
 
@@ -18,18 +19,18 @@ function LoginPage({ activeRoute, routes, onNavigate }) {
 
                 if (response.data.success) {
 
-                    // מעבר לדשבורד
+
                     onNavigate("dashboard");
 
                 } else {
 
-                    alert("שם משתמש או סיסמה שגויים");
+                    setErrorMessage("שם משתמש או סיסמה שגויים");
                 }
             })
             .catch(error => {
 
                 console.log(error);
-                alert("שגיאה בשרת");
+                setErrorMessage("שגיאה בהתחברות לשרת");
             });
     };
 
@@ -76,8 +77,14 @@ function LoginPage({ activeRoute, routes, onNavigate }) {
                             />
                         </label>
 
-                        <button onClick={handleLogin}>
-                            Log In
+                        {errorMessage && (
+                            <p className="login-error">
+                                {errorMessage}
+                            </p>
+                        )}
+
+                        <button className="login-button" onClick={handleLogin}>
+                            התחברות
                         </button>
 
                     </div>
