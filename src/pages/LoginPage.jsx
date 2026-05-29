@@ -1,6 +1,7 @@
 import PageShell from '../components/PageShell.jsx'
 import { useState } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 
 function LoginPage({ activeRoute, routes, onNavigate }) {
 
@@ -18,20 +19,21 @@ function LoginPage({ activeRoute, routes, onNavigate }) {
         )
             .then(response => {
 
-                console.log(response.data);
-
                 if (response.data.success) {
+
+                    // Cookies.set("token", response.data.token, {
+                    //     expires: 7,
+                    //     secure: true,
+                    //     sameSite: "strict"
+                    // });
 
                     onNavigate("dashboard");
 
                 } else {
-
                     setErrorMessage("שם משתמש או סיסמה שגויים");
                 }
             })
             .catch(error => {
-
-                console.log(error);
                 setErrorMessage("שגיאה בהתחברות לשרת");
             });
     };
