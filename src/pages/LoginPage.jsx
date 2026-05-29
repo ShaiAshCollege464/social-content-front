@@ -8,6 +8,9 @@ function LoginPage({ activeRoute, routes, onNavigate }) {
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
 
+    // הכפתור יהיה מושבת אם אחד השדות ריק
+    const isLoginDisabled = !username.trim() || !password.trim();
+
     const handleLogin = () => {
 
         axios.get(
@@ -18,7 +21,6 @@ function LoginPage({ activeRoute, routes, onNavigate }) {
                 console.log(response.data);
 
                 if (response.data.success) {
-
 
                     onNavigate("dashboard");
 
@@ -53,7 +55,16 @@ function LoginPage({ activeRoute, routes, onNavigate }) {
                         זהו מסך התחברות למערכת
                     </p>
 
-                    <div className="field-stack">
+                    <form
+                        className="field-stack"
+                        onSubmit={(e) => {
+                            e.preventDefault();
+
+                            if (!isLoginDisabled) {
+                                handleLogin();
+                            }
+                        }}
+                    >
 
                         <label>
                             אימייל או שם משתמש
@@ -83,11 +94,20 @@ function LoginPage({ activeRoute, routes, onNavigate }) {
                             </p>
                         )}
 
-                        <button className="login-button" onClick={handleLogin}>
+                        <button
+                            className="login-button"
+                            type="submit"
+                            disabled={isLoginDisabled}
+                            style={{
+                                backgroundColor: isLoginDisabled ? "#999999" : "",
+                                cursor: isLoginDisabled ? "not-allowed" : "pointer",
+                                opacity: isLoginDisabled ? 0.6 : 1
+                            }}
+                        >
                             התחברות
                         </button>
 
-                    </div>
+                    </form>
 
                 </div>
 
