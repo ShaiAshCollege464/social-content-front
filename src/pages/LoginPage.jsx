@@ -21,11 +21,11 @@ function LoginPage({ activeRoute, routes, onNavigate }) {
 
                 if (response.data.success) {
 
-                    // Cookies.set("token", response.data.token, {
-                    //     expires: 7,
-                    //     secure: true,
-                    //     sameSite: "strict"
-                    // });
+                    Cookies.set("token", response.data.token, {
+                        expires: 7,
+                        secure: true,
+                        sameSite: "strict"
+                    });
 
                     onNavigate("dashboard");
 

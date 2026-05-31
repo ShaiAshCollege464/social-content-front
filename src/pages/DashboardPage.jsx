@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import {useEffect, useState} from 'react'
 import PageShell from '../components/PageShell.jsx'
+import axios from "axios";
 
 const dashboardText = {
   activeClients: 'לקוחות פעילים',
@@ -46,6 +47,17 @@ function DashboardPage({ activeRoute, routes, onNavigate }) {
   const [dashboardState] = useState(initialDashboardState)
   const { systemsInformation, userPersonalInformation } = dashboardState
   const { systems } = systemsInformation
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+
+
+  useEffect(() => {
+    axios.get("http://localhost:8080/users/me").then(response => {
+      setName(response.data.userModel.fullName)
+      setEmail(response.data.userModel.email)
+    })
+  }, []);
+
 
   return (
     <PageShell
@@ -59,12 +71,12 @@ function DashboardPage({ activeRoute, routes, onNavigate }) {
             {userPersonalInformation.initials}
           </div>
           <p className="eyebrow">{dashboardText.managerEyebrow}</p>
-          <h2 id="clients-title">{userPersonalInformation.fullName}</h2>
+          <h2 id="clients-title">{name}</h2>
           <p>
             {dashboardText.usernameLabel}: {userPersonalInformation.username}
           </p>
           <p>
-            {dashboardText.emailLabel}: {userPersonalInformation.email}
+            {dashboardText.emailLabel}: {email}
           </p>
 
           <div className="content-board" aria-hidden="true">
